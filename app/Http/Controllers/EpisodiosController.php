@@ -9,12 +9,13 @@ use function foo\func;
 
 class EpisodiosController extends Controller
 {
-    public function index(Temporada $temporada)
+    public function index(Temporada $temporada, Request $request)
     {
         return view(
             'episodios.index',[
             'episodios' => $temporada->episodios,
-            'temporadaId' => $temporada->id
+            'temporadaId' => $temporada->id,
+            'mensagem' => $request->session()->get('mensagem')
         ]);
     }
 
@@ -28,6 +29,7 @@ class EpisodiosController extends Controller
            );
         });
         $temporada->push();
+        $request->session()->flash('mensagem', 'Episódios marcados como assistidos');
 
         return redirect()->back();
     }
